@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="GSoC work product: 19 pull requests across jpf-core, jpf-nas, and jpf-nhandler by Darshan R, mentored by Cyrille Artho and Mahmoud Khawaja.">
+<meta name="theme-color" content="#fafafa">
+<link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/23702826?s=64&v=4">
+<title>Java 17 Support for Java Pathfinder: GSoC Work Product</title>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 17 Support for Java Pathfinder: GSoC Work Product">
+<meta property="og:description" content="19 pull requests across jpf-core, jpf-nas, and jpf-nhandler by Darshan R, mentored by Cyrille Artho and Mahmoud Khawaja.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 17 Support for Java Pathfinder: GSoC Work Product">
+<meta name="twitter:description" content="19 pull requests across jpf-core, jpf-nas, and jpf-nhandler by Darshan R.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+"headline":"Java 17 Support for Java Pathfinder: GSoC Work Product",
+"description":"19 pull requests across jpf-core, jpf-nas, and jpf-nhandler: sealed classes, records, bootstrap methods, models, and build fixes.",
+"author":{"@type":"Person","name":"Darshan R","url":"https://github.com/Darshan-dev57"},
+"about":{"@type":"SoftwareApplication","name":"Java Pathfinder"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root{
+  color-scheme:light;
+  --canvas:#fafafa; --elevated:#ffffff; --ink:#171717; --body:#333333;
+  --mute:#616161; --hairline:#e2e2e2;
+  --link:#0066cc; --link-deep:#004fa3; --selection:#d3e5ff; --tray:#f1f1f3;
+  --font:"Geist",Arial,system-ui,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --spring:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:14px;line-height:20px;-webkit-tap-highlight-color:rgba(0,102,204,.15);overflow-x:clip}
+body::after{content:"";position:fixed;inset:-6%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(560px 380px at 8% 12%,rgba(0,112,243,.055),transparent 70%),
+    radial-gradient(620px 420px at 92% 30%,rgba(121,40,202,.05),transparent 70%),
+    radial-gradient(500px 360px at 78% 82%,rgba(80,180,160,.06),transparent 70%),
+    radial-gradient(460px 320px at 18% 88%,rgba(255,0,128,.04),transparent 70%);
+  animation:drift 48s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(28px,-20px,0)}}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:8px 12px;border-radius:6px;z-index:60;font-size:14px;font-weight:500}
+.skip:focus-visible{left:8px;top:8px;outline:2px solid var(--link);outline-offset:2px}
+.top{position:sticky;top:12px;z-index:50;max-width:1160px;margin:12px auto 0;padding:6px 6px 6px 20px;display:flex;background:color-mix(in srgb,var(--canvas) 82%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--hairline);border-radius:9999px;box-shadow:0 8px 24px -16px rgba(23,23,23,.25)}
+.top-inner{margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;flex:1 1 auto;min-width:0}
+.brand{font-weight:600;letter-spacing:-.28px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+.brand-mark{border-radius:5px;display:block}
+.top-right{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--body)}
+
+a:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:6px}
+.shell{max-width:1360px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:72px;align-items:start}
+.toc{position:sticky;top:24px;padding:64px 0;max-height:calc(100vh - 48px);overflow:auto}
+.toc p{font-family:var(--mono);font-size:12px;font-weight:500;line-height:16px;color:var(--body);margin:0 0 8px;text-transform:uppercase}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;color:var(--body);text-decoration:none;font-size:14px;line-height:20px;padding:12px;min-height:44px;border-radius:6px;transition:background-color 200ms cubic-bezier(.16,1,.3,1),color 200ms cubic-bezier(.16,1,.3,1)}
+.toc a:hover{color:var(--ink);background:var(--elevated);box-shadow:inset 0 0 0 1px var(--hairline)}
+.toc a[aria-current="true"]{color:var(--ink);font-weight:500;background:var(--elevated);box-shadow:inset 0 0 0 1px var(--hairline)}
+.toc li{animation:tocIn 500ms cubic-bezier(.16,1,.3,1) both}
+.toc li:nth-child(1){animation-delay:0ms}
+.toc li:nth-child(2){animation-delay:60ms}
+.toc li:nth-child(3){animation-delay:120ms}
+.toc li:nth-child(4){animation-delay:180ms}
+.toc li:nth-child(5){animation-delay:240ms}
+.toc li:nth-child(6){animation-delay:300ms}
+main{min-width:0;padding-bottom:64px}
+.hero{padding:64px 0;position:relative}
+.combo{margin-left:calc(50% - 50vw - 160px);margin-right:calc(50% - 50vw + 160px);padding:64px 24px;text-align:center;border-bottom:1px solid var(--hairline)}
+.combo-marks{display:flex;align-items:center;justify-content:center;gap:28px}
+.combo-inner{display:inline-block;text-align:center}
+.combo-marks img{display:block}
+.combo-jpf{border-radius:18px;box-shadow:0 16px 40px -20px rgba(23,23,23,.35),inset 0 0 0 1px var(--hairline)}
+.combo-x{font-size:36px;line-height:1;color:var(--mute);font-weight:400}
+.combo-names{margin:20px 0 0;font-size:19px;font-weight:600;letter-spacing:-.3px}
+.hero::before{content:"";position:absolute;inset:-24px 0 0;z-index:-1;
+  background:
+    radial-gradient(480px 280px at 12% 20%,rgba(0,124,240,.10),transparent 70%),
+    radial-gradient(520px 300px at 85% 10%,rgba(121,40,202,.10),transparent 70%),
+    radial-gradient(420px 260px at 60% 90%,rgba(80,227,194,.12),transparent 70%),
+    radial-gradient(380px 240px at 30% 80%,rgba(255,0,128,.07),transparent 70%);}
+.hero h1{font-size:48px;font-weight:600;line-height:48px;letter-spacing:-1.9px;margin:0 0 16px;text-wrap:balance;max-width:16ch}
+.hero h2.sub{font-size:24px;font-weight:600;line-height:32px;letter-spacing:-.5px;margin:0 0 24px;color:var(--ink);text-wrap:balance}
+.details{margin:32px 0 0;padding:24px 0 0;border-top:1px solid var(--hairline);display:grid;gap:24px;max-width:62ch}
+.details h3{font-size:14px;font-weight:500;line-height:20px;margin:0 0 8px;color:var(--ink)}
+.details p,.details li{font-size:14px;line-height:20px;color:var(--body)}
+.details ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+section{padding:64px 0 0}
+h2.sec{font-size:32px;font-weight:600;line-height:40px;letter-spacing:-1.28px;margin:0;text-wrap:balance;scroll-margin-top:24px}
+.sec-sub{color:var(--body);font-size:16px;line-height:24px;margin:16px 0 0;max-width:62ch}
+.sec-sub a{font-weight:500}
+table.work{width:100%;border-collapse:collapse;margin-top:24px;font-size:14px;line-height:20px;background:var(--elevated);border:1px solid var(--hairline);border-radius:12px;overflow:hidden}
+table.work th{font-size:12px;font-weight:500;color:var(--body);text-align:left;padding:12px 16px;border-bottom:1px solid var(--hairline);background:var(--elevated)}
+table.work td{padding:12px 16px;border-bottom:1px solid var(--hairline);vertical-align:top;color:var(--body)}
+table.work tbody tr:last-child td{border-bottom:0}
+table.work tbody tr:hover{background:var(--canvas)}
+table.work td.num{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--body)}
+table.work td.ttl a{font-weight:500}
+table.work td.st{white-space:nowrap;font-size:12px;color:var(--body)}
+table.work td.st.open{color:var(--link);font-weight:500}
+.bezel{margin-top:32px;background:var(--tray);border:1px solid var(--hairline);border-radius:16px;padding:8px}
+.bezel-core{background:var(--elevated);border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9);overflow-x:auto}
+.bezel-core table.work{margin-top:0;border:0;border-radius:0}
+h3.block-h{font-size:20px;font-weight:600;line-height:28px;letter-spacing:-.4px;margin:40px 0 0}
+h4.block-h{font-size:14px;font-weight:500;line-height:20px;margin:24px 0 0;color:var(--ink)}
+ul.bullets{margin:8px 0;padding-left:20px;max-width:64ch;font-size:14px;line-height:20px;color:var(--body)}
+ul.bullets li{margin:8px 0}
+ul.bullets li::marker{color:var(--mute)}
+p.std{max-width:62ch;font-size:14px;line-height:20px;color:var(--body)}
+p.std strong{color:var(--ink)}
+.pair{margin:16px 0 0;max-width:64ch;font-size:14px;line-height:20px;color:var(--body)}
+.pair strong{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+code{font-family:var(--mono);font-size:14px;line-height:20px;background:var(--canvas);box-shadow:inset 0 0 0 1px var(--hairline);border-radius:6px;padding:1px 6px;overflow-wrap:anywhere;color:var(--ink)}
+footer{grid-column:1 / -1;border-top:1px solid var(--hairline);margin-top:64px;padding:40px 0 64px;color:var(--body);font-size:14px;line-height:20px;text-align:center}
+footer p{margin:0 auto;max-width:62ch}
+.to-top{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:40;width:44px;height:44px;border-radius:50%;background:var(--elevated);border:1px solid var(--hairline);box-shadow:0 12px 32px -16px rgba(23,23,23,.3);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1)}
+.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.to-top:hover{color:var(--link)}
+.to-top svg{display:block}
+a{color:var(--link);touch-action:manipulation;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--link-deep)}
+.toc a, .brand{text-decoration:none}
+.hero > *{animation:rise 700ms cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i,0)*90ms)}
+::selection{background:var(--selection)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin:24px 0 0;background:var(--elevated);border:1px solid var(--hairline);border-radius:12px;overflow:hidden;max-width:62ch}
+.stats div{padding:12px 16px}
+.stats div + div{border-left:1px solid var(--hairline)}
+.stats dt{font-size:12px;color:var(--body)}
+.stats dd{margin:2px 0 0;font-size:24px;font-weight:600;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;color:var(--body);padding:10px 16px;white-space:nowrap}
+.verdict{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:40;display:flex;align-items:center;gap:10px;background:var(--elevated);border:1px solid var(--hairline);border-radius:9999px;padding:10px 16px;min-height:44px;box-shadow:0 12px 32px -16px rgba(23,23,23,.3);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1);max-width:92vw}
+.verdict.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.verdict-track{width:96px;height:4px;border-radius:9999px;background:var(--hairline);overflow:hidden;flex:none}
+.verdict-fill{display:block;height:100%;background:var(--link);border-radius:inherit;transform:scaleX(0);transform-origin:left center;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.verdict-text{font-size:13px;color:var(--body);white-space:nowrap;font-variant-numeric:tabular-nums}
+.verdict-text strong{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.verdict,.verdict-fill{transition:none}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tocIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .toc{position:static;max-height:none;padding:24px 0 0}
+  .toc ol{display:flex;flex-wrap:wrap;gap:4px}
+  .toc a{box-shadow:inset 0 0 0 1px var(--hairline);background:var(--elevated)}
+  section{padding:48px 0 0}
+  .hero{padding:48px 0}
+  .hero h1{font-size:36px;line-height:40px;letter-spacing:-1.5px}
+  table.work td.st{white-space:normal}
+  .stats{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero > *{animation:none}body::after{animation:none}.toc li{animation:none}.to-top{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><img src="https://developers.google.com/static/open-source/gsoc/images/sun.svg" alt="" width="22" height="22" class="brand-mark"><span>Google Summer of Code</span></div>
+    <div class="top-right">Darshan R, GSoC</div>
+  </div>
+</header>
+<div class="shell">
+  <nav class="toc" aria-label="On this page" id="sidenav">
+    <p>On this page</p>
+    <ol>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#core">jpf-core</a></li>
+      <li><a href="#nas">jpf-nas</a></li>
+      <li><a href="#nhandler">jpf-nhandler</a></li>
+      <li><a href="#validation">Validation</a></li>
+      <li><a href="#next">What Remains</a></li>
+    </ol>
+  </nav>
+<main id="main">
+  <div class="hero">
+    <h1 style="--i:1">Verifying modern Java with JPF</h1>
+    <h2 class="sub" style="--i:2">Java 17 support across the model checker and its extensions</h2>
+    <dl class="stats" style="--i:3" aria-label="Results at a glance">
+      <div><dt>Opened</dt><dd>19</dd></div>
+      <div><dt>Merged</dt><dd>18</dd></div>
+      <div><dt>Open</dt><dd><a href="https://github.com/javapathfinder/jpf-core/pull/635">1</a></dd></div>
+    </dl>
+    <div class="details" style="--i:4">
+      <div>
+        <h3>Student</h3>
+        <ul>
+          <li><strong>Darshan R</strong></li>
+          <li><a href="https://github.com/Darshan-dev57">Darshan-dev57</a></li>
+          <li><a href="mailto:darshan.dev57@gmail.com">darshan.dev57@gmail.com</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Project details</h3>
+        <ul>
+          <li><strong>Organization:</strong> The JPF Team</li>
+          <li><strong>Mentors:</strong> <a href="https://github.com/cyrille-artho">Cyrille Artho</a>, <a href="https://github.com/Mahmoud-Khawaja">Mahmoud Khawaja</a></li>
+          <li><strong>Duration:</strong> June – September 2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="combo">
+    <div class="combo-inner">
+    <div class="combo-marks">
+      <img src="https://developers.google.com/static/open-source/gsoc/images/sun.svg" alt="Google Summer of Code logo" width="76" height="76">
+      <span class="combo-x" aria-hidden="true">×</span>
+      <img src="https://avatars.githubusercontent.com/u/23702826?s=256&v=4" alt="Java Pathfinder logo" width="76" height="76" class="combo-jpf">
+    </div>
+    <p class="combo-names">Google Summer of Code × The JPF Team</p>
+    </div>
+  </div>
+
+  <section id="goals" aria-labelledby="goals-h">
+    <h2 class="sec" id="goals-h">Goals</h2>
+    <p class="sec-sub">I spent the program making the checker handle the Java people actually write, then fixing whatever that work exposed. Over the summer I opened <strong>19 pull requests</strong> across three repositories: <a href="https://github.com/javapathfinder/jpf-core">JPF-Core</a> (12), <a href="https://github.com/javapathfinder/jpf-nas">JPF-NAS</a> (5), and <a href="https://github.com/javapathfinder/jpf-nhandler">jpf-nhandler</a> (2). 18 are merged and 1 is open for review.</p>
+    <h3 class="block-h">Abstract</h3>
+    <p class="sec-sub">Java Pathfinder finds bugs by running a program down every path it could take. But it was built for older Java, and modern code broke that promise: sealed classes and records, plus the hidden setup calls the compiler generates for them, either crashed the checker or silently gave wrong answers. My project brings the checker up to modern Java. I completed sealed-class and record support in the core engine, fixed the text-building and switch machinery around them, and repaired the networking and delegation extensions that work touched. Every fix ships with a test that fails before and passes after, so future contributors build on verified ground.</p>
+    <h3 class="block-h">Feature areas</h3>
+    <ul class="bullets">
+      <li><strong>Sealed classes.</strong> Read the permitted-subclass list correctly and reject classes that break the seal.</li>
+      <li><strong>Records.</strong> Understand record data and run the equality, printing, and hashing code the compiler generates.</li>
+      <li><strong>Pattern-matching switch.</strong> Run the type and enum switches Java 17 added.</li>
+      <li><strong>String concatenation.</strong> Handle the constants and boxed values modern text building emits.</li>
+      <li><strong>JDK models.</strong> Fill the startup hooks and file models Java needs before checking starts.</li>
+      <li><strong>Test infrastructure.</strong> Isolation between tests and control over when a run counts as finished.</li>
+    </ul>
+  </section>
+
+  <section id="core" aria-labelledby="core-h">
+    <h2 class="sec" id="core-h">JPF-Core contributions</h2>
+    <p class="sec-sub">12 pull requests, 11 merged and 1 open. Without these, everyday programs crash the checker before checking starts.</p>
+    <div class="bezel"><div class="bezel-core"><table class="work">
+      <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="4">Language features</td></tr>
+        <tr><td class="num">#636</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/636">SwitchBootstraps support</a></td><td>Runs Java 17 pattern-matching switch, for both type switches and enum switches.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#631</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/631">Record equality for reference components</a></td><td>Equality and printing match Java for texts, numbers, arrays, and nested records (fixes #628).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#627</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/627">Boxed Float and Double concatenation</a></td><td>Text building with boxed decimal values reads the right fields (fixes #626).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#625</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/625">Record signatures and reflection</a></td><td>Type details survive parsing and reflection on records works (fixes #624).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#621</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/621">Constant handling in string concat</a></td><td>Constant values decode correctly instead of going missing (fixes #619).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#620</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/620">Sealed-class parsing tests</a></td><td>Proves sealed-class metadata parses correctly; 3 of 5 failed before the fix.</td><td class="st">Merged</td></tr>
+        <tr class="grp"><td colspan="4">Models and infrastructure</td></tr>
+        <tr><td class="num">#640</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/640">SharedSecrets for ZipFile and JarFile</a></td><td>JPF can now start the JDK code that zip files need, so Clojure programs load instead of crashing (fixes #507).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#639</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/639">SharedSecrets security hook</a></td><td>Adds a JDK startup hook Java needs for security setup. Fixes 2 serialization test failures; suite now 1028 of 1028.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#638</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/638">JarFile model and peer</a></td><td>Programs reading jars get entries and manifests (fixes #477, #483).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#635</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/635">Resource loading from the tested program</a></td><td>Shipped data files load with content instead of coming back null. Open for review.</td><td class="st open">Open</td></tr>
+        <tr><td class="num">#634</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/634">Per-test classloader isolation</a></td><td>Optional mode stops tests leaking state into each other through shared loaders.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#633</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/633">Configurable end-state detection</a></td><td>Options control when a run counts as finished, for single and multiprocess runs.</td><td class="st">Merged</td></tr>
+      </tbody>
+    </table></div></div>
+    <h3 class="block-h">Technical highlights</h3>
+    <h4 class="block-h">Records implementation</h4>
+    <ul class="bullets">
+      <li>Component metadata parsed from classfiles with signatures and annotations preserved</li>
+      <li>Compiler-generated equality, hashing, and printing with host-identical results</li>
+      <li>Reflection support through modeled record components</li>
+    </ul>
+    <h4 class="block-h">Bootstrap methods</h4>
+    <ul class="bullets">
+      <li>StringConcatFactory constants decoded and resolved</li>
+      <li>SwitchBootstraps dispatch for type and enum switches</li>
+      <li>Slash-to-dot name normalization at every layer</li>
+    </ul>
+    <h4 class="block-h">Sealed classes support</h4>
+    <ul class="bullets">
+      <li>Permitted-subclass metadata parsed and tested</li>
+      <li>Dot-notation normalization so checks compare correctly</li>
+      <li>Parsing tests confirming pre-fix failures</li>
+    </ul>
+  </section>
+
+  <section id="nas" aria-labelledby="nas-h">
+    <h2 class="sec" id="nas-h">JPF-NAS contributions</h2>
+    <p class="sec-sub">5 pull requests, all merged. The socket demo and its tests could not run at all before these.</p>
+    <div class="bezel"><div class="bezel-core"><table class="work">
+      <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
+      <tbody>
+        <tr><td class="num">#18</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/18">OutputStreamWriter charset support</a></td><td>The socket demo prints text again; charset settings are stored instead of crashing.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#17</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/17">Socket model loading and peer repairs</a></td><td>Network models load correctly; accept and read behave; all 5 socket tests pass.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#13</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/13">Debug output removal</a></td><td>Leftover debug prints removed from the networking code.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#12</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/12">Formatting cleanup</a></td><td>Whitespace only, no behavior change.</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#11</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/11">Build script simplification</a></td><td>137 lines of helper code removed from the build.</td><td class="st">Merged</td></tr>
+      </tbody>
+    </table></div></div>
+    <h3 class="block-h">Technical highlights</h3>
+    <ul class="bullets">
+      <li>Model jar moved onto the classpath JPF actually reads, with both module trees</li>
+      <li>ServerSocket and stream peers repaired once models load</li>
+      <li>Combined upstream work split into reviewable pieces per reviewer feedback</li>
+    </ul>
+  </section>
+
+  <section id="nhandler" aria-labelledby="nhandler-h">
+    <h2 class="sec" id="nhandler-h">JPF-NHandler contributions</h2>
+    <p class="sec-sub">2 pull requests, both merged. Programs using jars and lambdas can be checked instead of crashing.</p>
+    <div class="bezel"><div class="bezel-core"><table class="work">
+      <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
+      <tbody>
+        <tr><td class="num">#26</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/26">Lambda and compact-string delegation</a></td><td>Jar delegation handles lambdas and modern string storage (fixes #14).</td><td class="st">Merged</td></tr>
+        <tr><td class="num">#24</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/24">JDK 11 build stabilization</a></td><td>Build works on JDK 11 and the test runner finds all tests; 35 of 35 pass.</td><td class="st">Merged</td></tr>
+      </tbody>
+    </table></div></div>
+    <h3 class="block-h">Technical highlights</h3>
+    <ul class="bullets">
+      <li>Synthetic lambda classes map to their functional interface during conversion</li>
+      <li>String conversion falls back to character access for compact strings</li>
+      <li>Explicit test dependencies with the Vintage engine for JUnit 4 tests</li>
+    </ul>
+  </section>
+
+  <section id="validation" aria-labelledby="validation-h">
+    <h2 class="sec" id="validation-h">Validation</h2>
+    <p class="sec-sub">How each change was proven before review.</p>
+    <ul class="bullets">
+      <li><strong>Build first.</strong> Every fix starts from a green build plus a HelloWorld run, so failures reproduce against a known-good baseline.</li>
+      <li><strong>Fail before, pass after.</strong> Each new test runs against the unfixed code to confirm it catches the bug, then against the fix.</li>
+      <li><strong>Full suite.</strong> Risky edits end with full runs: 1028, 1066, and 1071 tests recorded green across these pull requests.</li>
+      <li><strong>Small pull requests.</strong> Combined work was split per reviewer feedback, so each change is independently reviewable.</li>
+    </ul>
+  </section>
+
+  <section id="next" aria-labelledby="next-h">
+    <h2 class="sec" id="next-h">What Remains</h2>
+    <h3 class="block-h">Impact and results</h3>
+    <ul class="bullets">
+      <li><strong>Modern Java support.</strong> JPF analyzes programs using records, sealed classes, pattern switch, and modern text building.</li>
+      <li><strong>Working demos.</strong> The socket dialogue and jar delegation examples run instead of crashing.</li>
+      <li><strong>Green suites.</strong> Previously failing tests pass: serialization, sockets, delegation, and the full core suite.</li>
+      <li><strong>Cleaner builds.</strong> Simpler scripts and isolated tests make future contributions easier to verify.</li>
+    </ul>
+    <h3 class="block-h">Challenges and solutions</h3>
+    <div class="pair"><strong>Silent name mismatches.</strong>Slash-notation names never equaled dot-notation names, so sealed checks failed quietly. Solved by normalizing at storage with the same helper interfaces already used.</div>
+    <div class="pair"><strong>Bootstrap complexity.</strong>JVM setup calls hide in classfile attributes. Solved by giving each bootstrap family its own dispatch branch and measuring host behavior first.</div>
+    <div class="pair"><strong>Large combined changes.</strong>My networking changes arrived as one large pull request, and the reviewers asked me to split it. I divided the work into build, formatting, cleanup, and peer fixes, and each piece merged faster than the bundle ever would have.</div>
+    <h3 class="block-h">Remaining work</h3>
+    <ul class="bullets">
+      <li>Land <a href="https://github.com/javapathfinder/jpf-core/pull/635">core#635</a> after reviewer feedback.</li>
+      <li>Cover more sealed-class and record edge cases found while testing.</li>
+      <li>Work through the remaining Java 17 gaps after the program.</li>
+    </ul>
+    <h3 class="block-h">Acknowledgments</h3>
+    <p class="std">Thank you to <a href="https://github.com/cyrille-artho">Cyrille Artho</a> and <a href="https://github.com/Mahmoud-Khawaja">Mahmoud Khawaja</a> for the mentorship and the patient reviews, to <strong>The JPF Team</strong> for accepting the project, and to <strong>Google Summer of Code</strong> for the summer.</p>
+    <h3 class="block-h">Contact</h3>
+    <p class="std"><a href="https://github.com/Darshan-dev57">Darshan-dev57</a><br><a href="mailto:darshan.dev57@gmail.com">darshan.dev57@gmail.com</a></p>
+    <h3 class="block-h">Primary repositories</h3>
+    <p class="std"><a href="https://github.com/javapathfinder/jpf-core">JPF-Core</a> · <a href="https://github.com/javapathfinder/jpf-nas">JPF-NAS</a> · <a href="https://github.com/javapathfinder/jpf-nhandler">JPF-NHandler</a></p>
+  </section>
+</main>
+<footer>
+  <p>Darshan R · Java Pathfinder · GSoC 2026</p>
+</footer>
+</div>
+<div class="verdict" id="verdict">
+  <span class="verdict-track" aria-hidden="true"><span class="verdict-fill" id="verdictFill"></span></span>
+  <span class="verdict-text" id="verdictText" role="status">0 of 19 PRs reviewed</span>
+</div>
+<button class="to-top" id="toTop" type="button" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<script>
+(function(){
+  var links=document.querySelectorAll('#sidenav a');
+  var map={};
+  links.forEach(function(a){var id=a.getAttribute('href').slice(1);(map[id]=map[id]||[]).push(a);});
+  function clear(){links.forEach(function(a){a.removeAttribute('aria-current');});}
+  function set(id){clear();(map[id]||[]).forEach(function(a){a.setAttribute('aria-current','true');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting)set(e.target.id);});
+    },{rootMargin:'-40% 0px -55% 0px'});
+    Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)obs.observe(s);});
+  }
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nums=document.querySelectorAll('.stats dd');
+  function count(el,to){
+    if(reduce||!('IntersectionObserver' in window)){return;}
+    var t0=null,dur=900;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);
+      el.firstChild.nodeValue=String(Math.round(to*e));
+      if(p<1)window.requestAnimationFrame(step);
+    }
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){io.unobserve(el);window.requestAnimationFrame(step);}});
+    });
+    io.observe(el);
+  }
+  nums.forEach(function(el){
+    if(el.querySelector('a'))return;
+    var v=parseInt(el.textContent,10);
+    if(!isNaN(v))count(el,v);
+  });
+  var pill=document.getElementById('verdict'),      fill=document.getElementById('verdictFill'),
+      vtext=document.getElementById('verdictText'),
+      heroEl=document.querySelector('.hero'),
+      footEl=document.querySelector('footer'),
+      weights={core:12,nas:5,nhandler:2}, seen={}, lastN=-1,
+      heroOut=false, footIn=false,
+      topBtn=document.getElementById('toTop'),
+      reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function verdictRender(){
+    var n=0;['core','nas','nhandler'].forEach(function(id){if(seen[id])n+=weights[id];});
+    if(n===lastN)return; lastN=n;
+    fill.style.transform='scaleX('+(n/19)+')';
+    vtext.innerHTML='<strong>'+n+'</strong> of 19 PRs reviewed';
+    verdictToggle();
+  }
+  function verdictToggle(){
+    pill.classList.toggle('show',heroOut&&!footIn&&lastN>0);
+  }
+  if('IntersectionObserver' in window){
+    var secObs=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.boundingClientRect.top<window.innerHeight*0.6)seen[e.target.id]=true;
+        else delete seen[e.target.id];
+        verdictRender();
+      });
+    },{threshold:0});
+    ['core','nas','nhandler'].forEach(function(id){var s=document.getElementById(id);if(s)secObs.observe(s);});
+    var heroObs=new IntersectionObserver(function(es){
+      es.forEach(function(e){heroOut=!e.isIntersecting&&e.boundingClientRect.top<0;verdictToggle();if(topBtn)topBtn.classList.toggle('show',heroOut);});
+    });
+    if(topBtn)topBtn.addEventListener('click',function(){
+      window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'});
+    });
+    if(heroEl)heroObs.observe(heroEl);
+    var footObs=new IntersectionObserver(function(es){
+      es.forEach(function(e){footIn=e.isIntersecting;verdictToggle();});
+    });
+    if(footEl)footObs.observe(footEl);
+  }
+})();
+</script>
+</body>
+</html>
