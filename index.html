@@ -25,15 +25,13 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
-<style>
-:root{
+<style>:root{
   color-scheme:light;
   --canvas:#fafafa; --elevated:#ffffff; --ink:#171717; --body:#333333;
   --mute:#616161; --hairline:#e2e2e2;
-  --link:#0066cc; --link-deep:#004fa3; --selection:#d3e5ff; --tray:#f1f1f3;
+  --link:#0066cc; --link-deep:#004fa3; --selection:#d3e5ff; --tray:#f1f1f3; --ok:#1a7f37;
   --font:"Geist",Arial,system-ui,sans-serif;
   --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --spring:cubic-bezier(.32,.72,0,1);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -53,27 +51,19 @@ body::after{content:"";position:fixed;inset:-6%;z-index:-1;pointer-events:none;
 .brand{font-weight:600;letter-spacing:-.28px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
 .brand-mark{border-radius:5px;display:block}
 .top-right{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--body)}
-
 a:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:6px}
-.shell{max-width:1360px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:72px;align-items:start}
-.toc{position:sticky;top:24px;padding:64px 0;max-height:calc(100vh - 48px);overflow:auto}
+.shell{max-width:1360px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1fr;gap:0;align-items:start}
+.toc{padding:24px 0 0}
 .toc p{font-family:var(--mono);font-size:12px;font-weight:500;line-height:16px;color:var(--body);margin:0 0 8px;text-transform:uppercase}
-.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.toc a{display:block;color:var(--body);text-decoration:none;font-size:14px;line-height:20px;padding:12px;min-height:44px;border-radius:6px;transition:background-color 200ms cubic-bezier(.16,1,.3,1),color 200ms cubic-bezier(.16,1,.3,1)}
-.toc a:hover{color:var(--ink);background:var(--elevated);box-shadow:inset 0 0 0 1px var(--hairline)}
-.toc a[aria-current="true"]{color:var(--ink);font-weight:500;background:var(--elevated);box-shadow:inset 0 0 0 1px var(--hairline)}
-.toc li{animation:tocIn 500ms cubic-bezier(.16,1,.3,1) both}
-.toc li:nth-child(1){animation-delay:0ms}
-.toc li:nth-child(2){animation-delay:60ms}
-.toc li:nth-child(3){animation-delay:120ms}
-.toc li:nth-child(4){animation-delay:180ms}
-.toc li:nth-child(5){animation-delay:240ms}
-.toc li:nth-child(6){animation-delay:300ms}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.toc a{display:inline-flex;align-items:center;min-height:44px;color:var(--body);text-decoration:none;font-size:14px;line-height:20px;padding:8px 12px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--hairline);background:var(--elevated);transition:background-color 200ms cubic-bezier(.16,1,.3,1),color 200ms cubic-bezier(.16,1,.3,1)}
+.toc a:hover{color:var(--ink)}
+.toc a[aria-current="true"]{color:var(--ink);font-weight:500}
 main{min-width:0;padding-bottom:64px}
-.hero{padding:64px 0;position:relative}
+.hero{padding:40px 0;position:relative}
 .combo{margin-left:calc(50% - 50vw - 160px);margin-right:calc(50% - 50vw + 160px);padding:64px 24px;text-align:center;border-bottom:1px solid var(--hairline)}
-.combo-marks{display:flex;align-items:center;justify-content:center;gap:28px}
 .combo-inner{display:inline-block;text-align:center}
+.combo-marks{display:flex;align-items:center;justify-content:center;gap:28px}
 .combo-marks img{display:block}
 .combo-jpf{border-radius:18px;box-shadow:0 16px 40px -20px rgba(23,23,23,.35),inset 0 0 0 1px var(--hairline)}
 .combo-x{font-size:36px;line-height:1;color:var(--mute);font-weight:400}
@@ -82,30 +72,33 @@ main{min-width:0;padding-bottom:64px}
   background:
     radial-gradient(480px 280px at 12% 20%,rgba(0,124,240,.10),transparent 70%),
     radial-gradient(520px 300px at 85% 10%,rgba(121,40,202,.10),transparent 70%),
-    radial-gradient(420px 260px at 60% 90%,rgba(80,227,194,.12),transparent 70%),
-    radial-gradient(380px 240px at 30% 80%,rgba(255,0,128,.07),transparent 70%);}
-.hero h1{font-size:56px;font-weight:600;line-height:56px;letter-spacing:-2.2px;margin:0 0 16px;text-wrap:balance;max-width:18ch}
+    radial-gradient(420px 360px at 60% 90%,rgba(80,227,194,.12),transparent 70%),
+    radial-gradient(380px 320px at 30% 80%,rgba(255,0,128,.07),transparent 70%);}
+.hero h1{font-size:clamp(2.25rem,1.4rem+4vw,3.5rem);font-weight:600;line-height:1.08;letter-spacing:-1.9px;margin:0 0 16px;text-wrap:balance;max-width:18ch}
 .meta-line{font-family:var(--mono);font-size:13px;line-height:20px;color:var(--body);margin:0 0 16px}
 .meta-line strong{color:var(--ink);font-weight:500}
-.hero h2.sub{font-size:24px;font-weight:600;line-height:32px;letter-spacing:-.5px;margin:0 0 24px;color:var(--ink);text-wrap:balance}
+.hero h2.sub{font-size:20px;font-weight:600;line-height:28px;letter-spacing:-.4px;margin:0 0 24px;color:var(--ink);text-wrap:balance}
 .details{margin:32px 0 0;padding:24px 0 0;border-top:1px solid var(--hairline);display:grid;gap:24px;max-width:62ch}
 .details h3{font-size:14px;font-weight:500;line-height:20px;margin:0 0 8px;color:var(--ink)}
 .details p,.details li{font-size:14px;line-height:20px;color:var(--body)}
 .details ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
-section{padding:64px 0 0}
-h2.sec{font-size:32px;font-weight:600;line-height:40px;letter-spacing:-1.28px;margin:0;text-wrap:balance;scroll-margin-top:24px}
+section{padding:40px 0 0;scroll-margin-top:64px}
+h2.sec{font-size:28px;font-weight:600;line-height:36px;letter-spacing:-.8px;margin:0;text-wrap:balance;scroll-margin-top:24px}
 .sec-sub{color:var(--body);font-size:16px;line-height:24px;margin:16px 0 0;max-width:62ch}
 .sec-sub a{font-weight:500}
 table.work{width:100%;border-collapse:collapse;margin-top:24px;font-size:14px;line-height:20px;background:var(--elevated);border:1px solid var(--hairline);border-radius:12px;overflow:hidden}
-table.work th{font-size:12px;font-weight:500;color:var(--body);text-align:left;padding:12px 16px;border-bottom:1px solid var(--hairline);background:var(--elevated)}
-table.work td{padding:12px 16px;border-bottom:1px solid var(--hairline);vertical-align:top;color:var(--body)}
-table.work tbody tr:last-child td{border-bottom:0}
-table.work tbody tr:hover{background:var(--canvas)}
-table.work td.num{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--body)}
+table.work thead{position:absolute;left:-9999px}
+table.work,table.work tbody,table.work tr,table.work td{display:block;width:100%}
+table.work tr{border-bottom:1px solid var(--hairline);padding:8px 0}
+table.work tbody tr:last-child{border-bottom:0}
+table.work td{border:0;padding:3px 16px;vertical-align:top;color:var(--body)}
+table.work td[data-label]::before{content:attr(data-label);display:block;font-size:12px;color:var(--mute)}
+table.work tr.grp td{font-size:13px;font-weight:500}
+table.work td.num{font-family:var(--mono);font-size:12px;color:var(--body)}
 table.work td.ttl a{font-weight:500}
-table.work td.st{white-space:nowrap;font-size:12px;color:var(--body)}
+table.work td.st{font-size:12px;color:var(--body)}
 table.work td.st.open{color:var(--link);font-weight:500}
-.bezel{margin-top:32px;background:var(--tray);border:1px solid var(--hairline);border-radius:16px;padding:8px}
+.bezel{margin-top:24px;background:var(--tray);border:1px solid var(--hairline);border-radius:16px;padding:8px}
 .bezel-core{background:var(--elevated);border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9);overflow-x:auto}
 .bezel-core table.work{margin-top:0;border:0;border-radius:0}
 h3.block-h{font-size:20px;font-weight:600;line-height:28px;letter-spacing:-.4px;margin:40px 0 0}
@@ -117,7 +110,13 @@ p.std{max-width:62ch;font-size:14px;line-height:20px;color:var(--body)}
 p.std strong{color:var(--ink)}
 .pair{margin:16px 0 0;max-width:64ch;font-size:14px;line-height:20px;color:var(--body)}
 .pair strong{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+.pair.key{background:var(--elevated);border:1px solid var(--hairline);border-radius:12px;padding:16px 20px}
+ol.loop{margin:32px 0 0;padding:20px 24px;list-style:none;display:grid;gap:0;border:1px solid var(--hairline);border-radius:12px;background:var(--elevated);max-width:62ch}
+ol.loop li{font-size:14px;line-height:20px;color:var(--body);text-align:center;padding:6px 0}
+ol.loop li + li::before{content:"↓";display:block;color:var(--mute);font-size:12px;line-height:1;padding-bottom:6px}
+ol.loop li:last-child{font-weight:600;color:var(--ink)}
 code{font-family:var(--mono);font-size:14px;line-height:20px;background:var(--canvas);box-shadow:inset 0 0 0 1px var(--hairline);border-radius:6px;padding:1px 6px;overflow-wrap:anywhere;color:var(--ink)}
+.snippet{font-family:var(--mono);font-size:13px;line-height:22px;background:var(--elevated);border:1px solid var(--hairline);border-radius:12px;padding:16px 20px;margin:16px 0 0;overflow-x:auto;white-space:pre;max-width:62ch}
 footer{grid-column:1 / -1;border-top:1px solid var(--hairline);margin-top:64px;padding:40px 0 64px;color:var(--body);font-size:14px;line-height:20px;text-align:center}
 footer p{margin:0 auto;max-width:62ch}
 .to-top{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:40;width:44px;height:44px;border-radius:50%;background:var(--elevated);border:1px solid var(--hairline);box-shadow:0 12px 32px -16px rgba(23,23,23,.3);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1)}
@@ -134,26 +133,81 @@ a:hover{color:var(--link-deep)}
 .stats div + div{border-left:1px solid var(--hairline)}
 .stats dt{font-size:12px;color:var(--body)}
 .stats dd{margin:2px 0 0;font-size:24px;font-weight:600;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
-table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;color:var(--body);padding:10px 16px;white-space:nowrap}
-.verdict{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:40;display:flex;align-items:center;gap:10px;background:var(--elevated);border:1px solid var(--hairline);border-radius:9999px;padding:10px 16px;min-height:44px;box-shadow:0 12px 32px -16px rgba(23,23,23,.3);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1);max-width:92vw}
-.verdict.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.verdict-track{width:96px;height:4px;border-radius:9999px;background:var(--hairline);overflow:hidden;flex:none}
-.verdict-fill{display:block;height:100%;background:var(--link);border-radius:inherit;transform:scaleX(0);transform-origin:left center;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.verdict-text{font-size:13px;color:var(--body);white-space:nowrap;font-variant-numeric:tabular-nums}
-.verdict-text strong{color:var(--ink)}
-@media (prefers-reduced-motion:reduce){.verdict,.verdict-fill{transition:none}}
+.ba-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:32px;align-items:stretch}
+.ba-panel{background:#ffffff;border:1px solid var(--hairline);border-radius:12px;padding:8px 24px 16px}
+.ba-panel.before{background:var(--wash)}
+.ba-panel h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:16px 0 0}
+.ba-panel.after h3{color:var(--link)}
+.ba-item{padding:14px 0;border-bottom:1px solid var(--hairline)}
+.ba-item:last-child{border-bottom:0}
+.ba-item p{margin:0;font-size:14px;line-height:22px;color:var(--body)}
+.ba-item p.flow{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.ba-item p.why{font-size:13px;color:var(--mute);margin-top:4px}
+.ba-item p.got{font-size:14px;color:var(--ink)}
+.ba-x{color:var(--mute);font-weight:600}
+.ba-ok{color:var(--ok);font-weight:600}
+.ba-mid{display:flex;align-items:center;justify-content:center;color:var(--mute);padding:4px 0}
+.ba-mid svg{transform:rotate(90deg)}
+.ba-impact{margin:32px auto 0;max-width:640px;text-align:center}
+.ba-impact p.lead{font-size:16px;line-height:24px;color:var(--ink);font-weight:500;margin:0}
+.ba-impact p.bignum{font-size:40px;font-weight:600;letter-spacing:-1px;color:var(--ink);font-variant-numeric:tabular-nums;margin:16px 0 0}
+.ba-impact p.sub{font-size:13px;color:var(--mute);margin:6px 0 0}
+.grp-h{font-size:13px;font-weight:600;color:var(--body);margin:28px 0 0}
+.flow{margin-top:24px}
+.flow-track{display:flex;flex-direction:column;max-width:560px;margin:0 auto}
+.step{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.sk{background:#ffffff;border:1.5px solid #2b2b30;border-radius:10px;padding:14px 16px}
+.sk.vm{border:2.5px solid var(--ink);background:var(--wash)}
+.sk h3{font-size:14px;font-weight:600;line-height:20px;margin:0}
+.sk ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:13px;line-height:20px;color:var(--body)}
+.sk ul code{font-size:12px}
+.sk .note{font-size:12px;line-height:18px;color:var(--mute);margin:10px 0 0}
+.conn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 0;min-width:0}
+.conn span{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.conn svg{display:block;color:var(--body)}
+.gsoc-mark{border:1.5px dashed var(--link);border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13px;font-weight:500;color:var(--link);text-align:center}
+.gsoc-mark small{display:block;font-weight:400;font-size:12px;color:var(--body)}
+.callouts{margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--hairline);list-style:none;display:grid;gap:4px;font-size:12.5px;line-height:19px;color:var(--body)}
+.callouts a{color:var(--link)}
+.mc-stack{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:2px;font-size:13px;color:var(--body);text-align:center}
+.mc-stack svg{display:block;margin:2px auto;color:var(--body)}
+.result-num{font-size:28px;font-weight:600;letter-spacing:-.5px;color:var(--ink);font-variant-numeric:tabular-nums;margin:8px 0 0}
+.result-ok{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:13px;color:var(--body)}
+.result-ok li::before{content:"✓ ";color:var(--ok);font-weight:600}
+.people li{grid-template-columns:1fr;gap:0}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes tocIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr;gap:0}
-  .toc{position:static;max-height:none;padding:24px 0 0}
-  .toc ol{display:flex;flex-wrap:wrap;gap:4px}
-  .toc a{box-shadow:inset 0 0 0 1px var(--hairline);background:var(--elevated)}
-  section{padding:48px 0 0}
-  .hero{padding:48px 0}
-  .hero h1{font-size:36px;line-height:40px;letter-spacing:-1.5px}
-  table.work td.st{white-space:normal}
-  .stats{grid-template-columns:repeat(3,1fr)}
+@media (min-width:900px){
+.shell{padding:0 32px;grid-template-columns:240px minmax(0,1fr);gap:72px}
+.toc{position:sticky;top:24px;padding:64px 0;max-height:calc(100vh - 48px);overflow:auto}
+.toc ol{display:grid;gap:2px}
+.toc a{display:block;padding:12px}
+.toc li{animation:tocIn 500ms cubic-bezier(.16,1,.3,1) both}
+.toc li:nth-child(1){animation-delay:0ms}
+.toc li:nth-child(2){animation-delay:60ms}
+.toc li:nth-child(3){animation-delay:120ms}
+.toc li:nth-child(4){animation-delay:180ms}
+.toc li:nth-child(5){animation-delay:240ms}
+.toc li:nth-child(6){animation-delay:300ms}
+.toc li:nth-child(n+7){animation-delay:360ms}
+.hero{padding:64px 0}
+section{padding:64px 0 0}
+h2.sec{font-size:32px;line-height:40px;letter-spacing:-1.28px}
+.hero h2.sub{font-size:24px;line-height:32px;letter-spacing:-.5px}
+table.work thead{position:static}
+table.work,table.work tbody,table.work tr,table.work td{display:revert;width:auto}
+table.work td{padding:12px 16px;border-bottom:1px solid var(--hairline)}
+table.work tbody tr:last-child td{border-bottom:0}
+table.work td[data-label]::before{content:none}
+table.work td.num{white-space:nowrap}
+table.work td.st{white-space:nowrap}
+table.work tr.grp td{white-space:nowrap}
+.flow-track{max-width:600px}
+.sk{padding:16px 20px}
+.conn{padding:10px 0}
+.people li{grid-template-columns:7.5rem 1fr;gap:.75rem}
+.ba-grid{grid-template-columns:1fr 56px 1fr}
+.ba-mid svg{transform:none}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero > *{animation:none}body::after{animation:none}.toc li{animation:none}.to-top{transition:none}}
 </style>
@@ -175,12 +229,15 @@ table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;col
       <li><a href="#nas">jpf-nas</a></li>
       <li><a href="#nhandler">jpf-nhandler</a></li>
       <li><a href="#validation">Validation</a></li>
-      <li><a href="#next">What Remains</a></li>
+      <li><a href="#results">Results &amp; Impact</a></li>
+      <li><a href="#challenges">Challenges &amp; Solutions</a></li>
+      <li><a href="#remaining">Remaining Work</a></li>
+      <li><a href="#acknowledgments">Acknowledgments</a></li>
     </ol>
   </nav>
 <main id="main">
   <div class="hero">
-    <p class="meta-line" style="--i:0">GSoC 2026 · The JPF Team · <strong>19 PRs</strong> · <strong>18 Merged</strong></p>
+    <p class="meta-line" style="--i:0">GSoC 2026 · The JPF Team</p>
     <h1 style="--i:1">Java 17 Support for Java Pathfinder</h1>
     <h2 class="sub" style="--i:2">Bringing modern Java language features and JDK functionality to JPF.</h2>
     <dl class="stats" style="--i:3" aria-label="Results at a glance">
@@ -223,7 +280,7 @@ table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;col
     <h2 class="sec" id="goals-h">Goals</h2>
     <p class="sec-sub">I spent the program making the checker handle the Java people actually write, then fixing whatever that work exposed. Over the summer I opened <strong>19 pull requests</strong> across three repositories: <a href="https://github.com/javapathfinder/jpf-core">JPF-Core</a> (12), <a href="https://github.com/javapathfinder/jpf-nas">JPF-NAS</a> (5), and <a href="https://github.com/javapathfinder/jpf-nhandler">jpf-nhandler</a> (2). 18 are merged and 1 is open for review.</p>
     <h3 class="block-h">Abstract</h3>
-    <p class="sec-sub">Java Pathfinder finds bugs by running a program down every path it could take. But it was built for older Java, and modern code broke that promise: sealed classes and records, plus the hidden setup calls the compiler generates for them, either crashed the checker or silently gave wrong answers. My project brings the checker up to modern Java. I completed sealed-class and record support in the core engine, fixed the text-building and switch machinery around them, and repaired the networking and delegation extensions that work touched. Every fix ships with a test that fails before and passes after, so future contributors build on verified ground.</p>
+    <p class="sec-sub">Java Pathfinder finds bugs by running a program down every path it can take. But it was built for older Java. Modern code broke that promise. Sealed classes and records crashed the checker or silently gave wrong answers. The hidden setup calls the compiler generates did the same. My project brings the checker up to modern Java. I completed sealed-class and record support in the core engine. I fixed the text-building and switch machinery around them. I repaired the networking and delegation extensions that work touched. Every fix ships with a test that fails before and passes after, so future contributors build on verified ground.</p>
     <h3 class="block-h">Feature areas</h3>
     <ul class="bullets">
       <li><strong>Sealed classes.</strong> Read the permitted-subclass list correctly and reject classes that break the seal.</li>
@@ -235,120 +292,277 @@ table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;col
     </ul>
   </section>
 
+  <section id="diagram" aria-labelledby="diagram-h">
+    <h2 class="sec" id="diagram-h">How Java 17 flows through JPF</h2>
+    <p class="sec-sub">One picture of the project: what goes in, where it breaks, what I fixed, and what comes out.</p>
+    <div class="flow">
+      <div class="flow-track">
+        <div class="step">
+          <div class="sk">
+            <h3>Java 17 Program</h3>
+            <ul>
+              <li>Records</li>
+              <li>Sealed classes</li>
+              <li>Pattern matching</li>
+              <li>String concatenation</li>
+            </ul>
+            <p class="note">modern Java source</p>
+          </div>
+        </div>
+        <div class="conn" aria-hidden="true"><span>compile</span><svg width="18" height="40" viewBox="0 0 18 40" fill="none"><path d="M9 3 V32" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 27.5 L9 33.5 L13.5 27.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step">
+          <div class="sk">
+            <h3>Java Class Files</h3>
+            <ul>
+              <li><code>bytecode</code></li>
+              <li><code>invokedynamic</code></li>
+              <li><code>bootstrap methods</code></li>
+            </ul>
+            <p class="note">what JPF actually executes</p>
+          </div>
+        </div>
+        <div class="conn" aria-hidden="true"><span>load</span><svg width="18" height="40" viewBox="0 0 18 40" fill="none"><path d="M9 3 V32" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 27.5 L9 33.5 L13.5 27.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step vm">
+          <div class="sk vm">
+            <h3>Java Pathfinder (JPF)</h3>
+            <ul>
+              <li>JPF virtual machine</li>
+              <li>execution state</li>
+              <li>bytecode execution</li>
+              <li>state exploration</li>
+            </ul>
+          </div>
+        </div>
+        <div class="conn" aria-hidden="true"><span>execute</span><svg width="18" height="40" viewBox="0 0 18 40" fill="none"><path d="M9 3 V32" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 27.5 L9 33.5 L13.5 27.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step">
+          <div class="gsoc-mark">GSoC 2026 contribution</div>
+          <div class="sk">
+            <h3>Java 17 Support</h3>
+            <ul>
+              <li>Language: records · sealed · switch</li>
+              <li>Runtime: <code>invokedynamic</code> · concat</li>
+              <li>JDK: reflection · models · resources</li>
+            </ul>
+            <ul class="callouts">
+              <li>records → <a href="https://github.com/javapathfinder/jpf-core/pull/631">equals/hashCode</a> · <a href="https://github.com/javapathfinder/jpf-core/pull/625">reflection</a></li>
+              <li>sealed → <a href="https://github.com/javapathfinder/jpf-core/pull/620">parsing</a> · runtime checks</li>
+              <li>switch → <a href="https://github.com/javapathfinder/jpf-core/pull/636">SwitchBootstraps</a></li>
+              <li>concat → <a href="https://github.com/javapathfinder/jpf-core/pull/621">constants</a> · <a href="https://github.com/javapathfinder/jpf-core/pull/627">boxed types</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="conn" aria-hidden="true"><span>model</span><svg width="18" height="40" viewBox="0 0 18 40" fill="none"><path d="M9 3 V32" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 27.5 L9 33.5 L13.5 27.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step">
+          <div class="sk">
+            <h3>Model Checking</h3>
+            <ul class="mc-stack">
+              <li>Explore</li>
+              <li aria-hidden="true"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M7 1.5 C 6.5 5, 7.5 8, 7 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.5 7.5 L7 11 L10.5 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+              <li>Different states</li>
+              <li aria-hidden="true"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M7 1.5 C 7.5 5, 6.5 8, 7 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.5 7.5 L7 11 L10.5 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+              <li>Verify behavior</li>
+            </ul>
+            <p class="note">JPF tries every execution</p>
+          </div>
+        </div>
+        <div class="conn" aria-hidden="true"><span>verify</span><svg width="18" height="40" viewBox="0 0 18 40" fill="none"><path d="M9 3 V32" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 27.5 L9 33.5 L13.5 27.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step">
+          <div class="sk">
+            <h3>Java 17 + JPF</h3>
+            <ul class="result-ok">
+              <li>Modern features supported</li>
+              <li>Runtime behavior modeled</li>
+              <li>Regression tests added</li>
+            </ul>
+            <p class="result-num">1,071</p>
+            <p class="note">tests passing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="before-after" aria-labelledby="ba-h">
+    <h2 class="sec" id="ba-h">Before → After</h2>
+    <p class="sec-sub">Making Java 17 behavior work correctly inside Java Pathfinder.</p>
+    <div class="ba-grid">
+      <div class="ba-panel before">
+        <h3>Before</h3>
+        <div class="ba-item"><p class="flow">Java 17 record ↓ JPF</p><p class="why"><span class="ba-x">✕</span> Reference and array components gave incorrect <code>equals</code>, <code>hashCode</code>, and <code>toString</code>.</p></div>
+        <div class="ba-item"><p class="flow">Sealed class ↓ JPF</p><p class="why"><span class="ba-x">✕</span> Sealed-class handling incomplete.</p></div>
+        <div class="ba-item"><p class="flow">Pattern switch ↓ invokedynamic</p><p class="why"><span class="ba-x">✕</span> Unsupported bootstrap handling.</p></div>
+        <div class="ba-item"><p class="flow">String concatenation ↓ invokedynamic</p><p class="why"><span class="ba-x">✕</span> Incorrect behavior (JEP 280).</p></div>
+      </div>
+      <div class="ba-mid" aria-hidden="true"><svg width="28" height="20" viewBox="0 0 32 20" fill="none"><path d="M3 10 C 12 8, 20 12, 27 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21 5.5 L28.5 10 L21 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="ba-panel after">
+        <h3>After</h3>
+        <div class="ba-item"><p class="flow">Java 17 record ↓ JPF</p><p class="got"><span class="ba-ok">✓</span> Correct behavior <span class="why">+ regression tests</span></p></div>
+        <div class="ba-item"><p class="flow">Sealed class ↓ JPF</p><p class="got"><span class="ba-ok">✓</span> Permitted subclasses handled, parsing and runtime validated</p></div>
+        <div class="ba-item"><p class="flow">Pattern switch ↓ <code>SwitchBootstraps</code></p><p class="got"><span class="ba-ok">✓</span> Bootstrap handled, execution tested</p></div>
+        <div class="ba-item"><p class="flow">String concatenation ↓ invokedynamic</p><p class="got"><span class="ba-ok">✓</span> Recipes and constants correct, boxed Float/Double fixed</p></div>
+      </div>
+    </div>
+    <div class="ba-impact">
+      <p class="lead">From unsupported or incorrect Java 17 behavior → validated Java 17 support inside JPF.</p>
+      <p class="bignum">1,071 tests passing</p>
+      <p class="sub">Regression testing across the affected components</p>
+    </div>
+  </section>
+
   <section id="core" aria-labelledby="core-h">
     <h2 class="sec" id="core-h">JPF-Core contributions</h2>
     <p class="sec-sub">12 pull requests, 11 merged and 1 open. Without these, everyday programs crash the checker before checking starts.</p>
-    <div class="bezel"><div class="bezel-core"><table class="work">
+    <div class="bezel"><div class="bezel-core"><table class="work" aria-label="jpf-core pull requests: number, title, description, status">
       <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
       <tbody>
         <tr class="grp"><td colspan="4">Language features</td></tr>
-        <tr><td class="num">#636</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/636">SwitchBootstraps support</a></td><td>Runs Java 17 pattern-matching switch, for both type switches and enum switches.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#631</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/631">Record equality for reference components</a></td><td>Equality and printing match Java for texts, numbers, arrays, and nested records (fixes #628).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#627</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/627">Boxed Float and Double concatenation</a></td><td>Text building with boxed decimal values reads the right fields (fixes #626).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#625</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/625">Record signatures and reflection</a></td><td>Type details survive parsing and reflection on records works (fixes #624).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#621</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/621">Constant handling in string concat</a></td><td>Constant values decode correctly instead of going missing (fixes #619).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#620</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/620">Sealed-class parsing tests</a></td><td>Proves sealed-class metadata parses correctly; 3 of 5 failed before the fix.</td><td class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#636</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/636">SwitchBootstraps support</a></td><td data-label="Description">Runs Java 17 pattern-matching switch, for both type switches and enum switches.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#631</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/631">Record equality for reference components</a></td><td data-label="Description">Equality and printing match Java for texts, numbers, arrays, and nested records (fixes #628).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#627</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/627">Boxed Float and Double concatenation</a></td><td data-label="Description">Text building with boxed decimal values reads the right fields (fixes #626).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#625</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/625">Record signatures and reflection</a></td><td data-label="Description">Type details survive parsing and reflection on records works (fixes #624).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#621</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/621">Constant handling in string concat</a></td><td data-label="Description">Constant values decode correctly instead of going missing (fixes #619).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#620</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/620">Sealed-class parsing tests</a></td><td data-label="Description">Proves sealed-class metadata parses correctly; 3 of 5 failed before the fix.</td><td data-label="Status" class="st">Merged</td></tr>
         <tr class="grp"><td colspan="4">Models and infrastructure</td></tr>
-        <tr><td class="num">#640</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/640">SharedSecrets for ZipFile and JarFile</a></td><td>JPF can now start the JDK code that zip files need, so Clojure programs load instead of crashing (fixes #507).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#639</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/639">SharedSecrets security hook</a></td><td>Adds a JDK startup hook Java needs for security setup. Fixes 2 serialization test failures; suite now 1028 of 1028.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#638</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/638">JarFile model and peer</a></td><td>Programs reading jars get entries and manifests (fixes #477, #483).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#635</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/635">Resource loading from the tested program</a></td><td>Shipped data files load with content instead of coming back null. Open for review.</td><td class="st open">Open</td></tr>
-        <tr><td class="num">#634</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/634">Per-test classloader isolation</a></td><td>Optional mode stops tests leaking state into each other through shared loaders.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#633</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/633">Configurable end-state detection</a></td><td>Options control when a run counts as finished, for single and multiprocess runs.</td><td class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#640</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/640">SharedSecrets for ZipFile and JarFile</a></td><td data-label="Description">JPF can now start the JDK code that zip files need, so Clojure programs load instead of crashing (fixes #507).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#639</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/639">SharedSecrets security hook</a></td><td data-label="Description">Adds a JDK startup hook Java needs for security setup. Fixes 2 serialization test failures; suite now 1028 of 1028.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#638</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/638">JarFile model and peer</a></td><td data-label="Description">Programs reading jars get entries and manifests (fixes #477, #483).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#635</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/635">Resource loading from the tested program</a></td><td data-label="Description">Shipped data files load with content instead of coming back null. Open for review.</td><td data-label="Status" class="st open">Open</td></tr>
+        <tr><td data-label="PR #" class="num">#634</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/634">Per-test classloader isolation</a></td><td data-label="Description">Optional mode stops tests leaking state into each other through shared loaders.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#633</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/633">Configurable end-state detection</a></td><td data-label="Description">Options control when a run counts as finished, for single and multiprocess runs.</td><td data-label="Status" class="st">Merged</td></tr>
       </tbody>
     </table></div></div>
     <h3 class="block-h">Technical highlights</h3>
     <h4 class="block-h">Records implementation</h4>
     <ul class="bullets">
-      <li>Component metadata parsed from classfiles with signatures and annotations preserved</li>
-      <li>Compiler-generated equality, hashing, and printing with host-identical results</li>
-      <li>Reflection support through modeled record components</li>
+      <li>Component metadata parsed from classfiles with generic signatures and annotations preserved</li>
+      <li>Array components compare by reference identity per JEP 395; boxed JDK types compare by wrapped value through a safe whitelist</li>
+      <li><code>toString</code> renders actual content instead of heap addresses; <code>hashCode</code> covers nested and multidimensional arrays</li>
+      <li>Reflection support through modeled record components with accessor and annotation queries</li>
     </ul>
     <h4 class="block-h">Bootstrap methods</h4>
     <ul class="bullets">
-      <li>StringConcatFactory constants decoded and resolved</li>
-      <li>SwitchBootstraps dispatch for type and enum switches</li>
-      <li>Slash-to-dot name normalization at every layer</li>
+      <li>StringConcatFactory recipe decoding with resolved static arguments and zero-arg guards</li>
+      <li>SwitchBootstraps dispatch for type switches (<code>instanceof</code> matching) and enum switches, with null fall-through per host convention</li>
+      <li>ASM-generated tests checked against host JDK 17 behavior first</li>
     </ul>
     <h4 class="block-h">Sealed classes support</h4>
     <ul class="bullets">
-      <li>Permitted-subclass metadata parsed and tested</li>
-      <li>Dot-notation normalization so checks compare correctly</li>
-      <li>Parsing tests confirming pre-fix failures</li>
+      <li>Permitted-subclass metadata parsed into class info and covered by direct classfile tests</li>
+      <li>Parsing tests confirm the pre-fix failures before the shadowing fix lands</li>
+      <li>Consistent name handling between storage and comparison paths</li>
     </ul>
   </section>
 
   <section id="nas" aria-labelledby="nas-h">
     <h2 class="sec" id="nas-h">JPF-NAS contributions</h2>
-    <p class="sec-sub">5 pull requests, all merged. The socket demo and its tests could not run at all before these.</p>
-    <div class="bezel"><div class="bezel-core"><table class="work">
+    <p class="sec-sub">5 pull requests, all merged. The socket demo and its tests did not run at all before these.</p>
+    <div class="bezel"><div class="bezel-core"><table class="work" aria-label="jpf-nas pull requests: number, title, description, status">
       <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
       <tbody>
-        <tr><td class="num">#18</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/18">OutputStreamWriter charset support</a></td><td>The socket demo prints text again; charset settings are stored instead of crashing.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#17</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/17">Socket model loading and peer repairs</a></td><td>Network models load correctly; accept and read behave; all 5 socket tests pass.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#13</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/13">Debug output removal</a></td><td>Leftover debug prints removed from the networking code.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#12</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/12">Formatting cleanup</a></td><td>Whitespace only, no behavior change.</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#11</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/11">Build script simplification</a></td><td>137 lines of helper code removed from the build.</td><td class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#18</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/18">OutputStreamWriter charset support</a></td><td data-label="Description">The socket demo prints text again; charset settings are stored instead of crashing.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#17</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/17">Socket model loading and peer repairs</a></td><td data-label="Description">Network models load correctly; accept and read behave; all 5 socket tests pass.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#13</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/13">Debug output removal</a></td><td data-label="Description">Leftover debug prints removed from the networking code.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#12</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/12">Formatting cleanup</a></td><td data-label="Description">Whitespace only, no behavior change.</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#11</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nas/pull/11">Build script simplification</a></td><td data-label="Description">137 lines of helper code removed from the build.</td><td data-label="Status" class="st">Merged</td></tr>
       </tbody>
     </table></div></div>
     <h3 class="block-h">Technical highlights</h3>
     <ul class="bullets">
-      <li>Model jar moved onto the classpath JPF actually reads, with both module trees</li>
-      <li>ServerSocket and stream peers repaired once models load</li>
-      <li>Combined upstream work split into reviewable pieces per reviewer feedback</li>
+      <li>Model jar moved from the boot path onto the classpath JPF actually reads, with both <code>modules</code> and <code>java.base</code> trees</li>
+      <li>ServerSocket peer restored with address-in-use checking; accepted sockets use the model; finalizer waits and instant-timeout throws removed</li>
+      <li>Socket tests go from 3 failed with orphan warnings to 5 of 5 clean</li>
+      <li>Combined upstream work split into build, formatting, debug, and peer fixes per reviewer feedback</li>
     </ul>
   </section>
 
   <section id="nhandler" aria-labelledby="nhandler-h">
     <h2 class="sec" id="nhandler-h">JPF-NHandler contributions</h2>
     <p class="sec-sub">2 pull requests, both merged. Programs using jars and lambdas can be checked instead of crashing.</p>
-    <div class="bezel"><div class="bezel-core"><table class="work">
+    <div class="bezel"><div class="bezel-core"><table class="work" aria-label="jpf-nhandler pull requests: number, title, description, status">
       <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
       <tbody>
-        <tr><td class="num">#26</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/26">Lambda and compact-string delegation</a></td><td>Jar delegation handles lambdas and modern string storage (fixes #14).</td><td class="st">Merged</td></tr>
-        <tr><td class="num">#24</td><td class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/24">JDK 11 build stabilization</a></td><td>Build works on JDK 11 and the test runner finds all tests; 35 of 35 pass.</td><td class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#26</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/26">Lambda and compact-string delegation</a></td><td data-label="Description">Jar delegation handles lambdas and modern string storage (fixes #14).</td><td data-label="Status" class="st">Merged</td></tr>
+        <tr><td data-label="PR #" class="num">#24</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-nhandler/pull/24">JDK 11 build stabilization</a></td><td data-label="Description">Build works on JDK 11 and the test runner finds all tests; 35 of 35 pass.</td><td data-label="Status" class="st">Merged</td></tr>
       </tbody>
     </table></div></div>
     <h3 class="block-h">Technical highlights</h3>
     <ul class="bullets">
-      <li>Synthetic lambda classes map to their functional interface during conversion</li>
-      <li>String conversion falls back to character access for compact strings</li>
-      <li>Explicit test dependencies with the Vintage engine for JUnit 4 tests</li>
+      <li>Synthetic lambda classes resolve to their functional interface first during conversion</li>
+      <li>String conversion falls back to character access when compact-string bytes are absent</li>
+      <li>Missing <code>jdk.internal.misc</code> open flag added; explicit Vintage engine runs the JUnit 4 tests</li>
+      <li>Suite moves from 34 of 35 to 35 of 35 passing</li>
     </ul>
   </section>
 
   <section id="validation" aria-labelledby="validation-h">
     <h2 class="sec" id="validation-h">Validation</h2>
-    <p class="sec-sub">How each change was proven before review.</p>
+    <p class="sec-sub">How each change was proven before review. Every fix starts from this baseline:</p>
+    <div class="snippet">$ ./gradlew buildJars                 # BUILD SUCCESSFUL
+$ java -jar build/RunJPF.jar HelloWorld.jpf   # no errors detected
+$ ./gradlew parallelTest                      # 1028 of 1028 green</div>
     <ul class="bullets">
-      <li><strong>Build first.</strong> Every fix starts from a green build plus a HelloWorld run, so failures reproduce against a known-good baseline.</li>
-      <li><strong>Fail before, pass after.</strong> Each new test runs against the unfixed code to confirm it catches the bug, then against the fix.</li>
-      <li><strong>Full suite.</strong> Risky edits end with full runs: 1028, 1066, and 1071 tests recorded green across these pull requests.</li>
-      <li><strong>Small pull requests.</strong> Combined work was split per reviewer feedback, so each change is independently reviewable.</li>
+      <li><strong>Fail before, pass after.</strong> Each new test runs against the unfixed code first. The sealed tests fail 3 of 5 pre-fix; the concat test fails pre-fix; then all pass post-fix.</li>
+      <li><strong>Host parity first.</strong> Where semantics matter, expected values are measured on the host JDK (17 for switch behavior) before asserting them under JPF.</li>
+      <li><strong>Full suite after risky edits.</strong> Classfile, classloader, and dispatch changes each end with full runs: 1028, 1066, and 1071 tests green.</li>
+      <li><strong>Small pull requests.</strong> Combined work was split per reviewer feedback, so each change is independently reviewable and revertible.</li>
     </ul>
   </section>
 
-  <section id="next" aria-labelledby="next-h">
-    <h2 class="sec" id="next-h">What Remains</h2>
-    <h3 class="block-h">Impact and results</h3>
+  <section id="results" aria-labelledby="results-h">
+    <h2 class="sec" id="results-h">Results &amp; Impact</h2>
+    <p class="sec-sub">What was accomplished.</p>
     <ul class="bullets">
-      <li><strong>Modern Java support.</strong> JPF analyzes programs using records, sealed classes, pattern switch, and modern text building.</li>
-      <li><strong>Working demos.</strong> The socket dialogue and jar delegation examples run instead of crashing.</li>
-      <li><strong>Green suites.</strong> Previously failing tests pass: serialization, sockets, delegation, and the full core suite.</li>
-      <li><strong>Cleaner builds.</strong> Simpler scripts and isolated tests make future contributions easier to verify.</li>
+      <li><strong>Modern Java support.</strong> Records compare, print, and hash exactly like the host JVM. Sealed hierarchies parse and validate. Pattern switches execute instead of crashing the bootstrap.</li>
+      <li><strong>Programs that load.</strong> Clojure reaches its test code instead of dying in jar loading. The KnockKnock socket dialogue completes end to end. Jar delegation runs past entry lookup.</li>
+      <li><strong>Suites that prove it.</strong> Serialization 9 of 9, sockets 5 of 5 with zero orphan warnings, delegation 35 of 35, core suites 1028, 1066, and 1071 green.</li>
+      <li><strong>A repo in better shape.</strong> 137 lines of build boilerplate gone, tests isolated from each other's static state, end-of-run behavior configurable instead of hardcoded.</li>
     </ul>
-    <h3 class="block-h">Challenges and solutions</h3>
-    <div class="pair"><strong>Silent name mismatches.</strong>Slash-notation names never equaled dot-notation names, so sealed checks failed quietly. Solved by normalizing at storage with the same helper interfaces already used.</div>
-    <div class="pair"><strong>Bootstrap complexity.</strong>JVM setup calls hide in classfile attributes. Solved by giving each bootstrap family its own dispatch branch and measuring host behavior first.</div>
-    <div class="pair"><strong>Large combined changes.</strong>My networking changes arrived as one large pull request, and the reviewers asked me to split it. I divided the work into build, formatting, cleanup, and peer fixes, and each piece merged faster than the bundle ever would have.</div>
-    <h3 class="block-h">Remaining work</h3>
+    <p class="sec-sub">Test evidence: full suites recorded green at 1028, 1066, and <strong>1,071 tests passing</strong>. Each fix has a regression test that fails before and passes after.</p>
+  </section>
+
+  <section id="challenges" aria-labelledby="challenges-h">
+    <h2 class="sec" id="challenges-h">Challenges &amp; Solutions</h2>
+    <p class="sec-sub">What was difficult and how it was solved.</p>
+    <p class="sec-sub">The hardest part was not implementing individual features. It was learning a large, unfamiliar codebase. I had to determine <strong>where Java 17 behavior was handled, what already worked, what silently failed, and where the actual compatibility gaps were.</strong></p>
+    <div class="pair"><strong>Understanding an unfamiliar codebase.</strong> JPF spans a model-checking VM, bytecode execution, JDK models, native peers, and several extension repositories. Before changing code, I had to trace how a Java feature moved through these layers and identify the correct implementation point. I gradually built a mental model of the execution path. I read existing implementations, followed call chains, and compared related features. I used small experiments to validate my assumptions.</div>
+    <div class="pair"><strong>Finding what actually worked, and what did not.</strong> Java 17 support was rarely a simple "implemented / not implemented" problem. Some features appeared to work but produced incorrect behavior in specific cases, while others failed much later in execution. I used small, focused Java programs and regression tests to isolate behavior. I compared JPF's execution with the host JVM. That comparison showed whether a failure came from parsing, bytecode execution, a bootstrap method, a JDK model, or the surrounding infrastructure.</div>
+    <div class="pair"><strong>Tracing failures across abstraction layers.</strong> A visible failure was often several layers removed from its actual cause. A Java language feature can compile correctly, reach JPF successfully, and only fail when a bootstrap method, reflection path, or modeled JDK class runs. I traced execution from the Java source through class-file behavior into JPF's VM. Then I traced it back into the relevant model or peer implementation.</div>
+    <div class="pair key"><strong>Bridging host-JVM behavior with JPF's modeled execution.</strong> One of the hardest problems was that JPF does not simply execute Java using the host JVM. It models parts of the JVM and JDK itself, which means Java 17 behavior had to be reproduced inside JPF's execution model. A feature can behave correctly on the real JVM but still fail in JPF. The cause is a missing or different bytecode handler, bootstrap method, JDK model, or native peer. I treated the host JVM as the behavioral reference. I built minimal programs to isolate the difference. I traced the execution through JPF's VM and models. Then I implemented and regression-tested the missing behavior.</div>
+    <div class="pair"><strong>Working with incomplete compatibility assumptions.</strong> A major challenge was discovering that existing JPF implementations often encoded assumptions from older Java versions. Supporting Java 17 meant identifying which assumptions were still valid and which had become incorrect as the JDK and class-file behavior evolved. I did not replace working code wholesale. I compared the existing implementation with actual Java 17 behavior. I extended it only where the underlying assumption no longer held.</div>
+    <div class="pair"><strong>Reproducing JVM behavior outside the JPF environment.</strong> Some failures were difficult to understand from JPF's code alone because the expected behavior was defined by the real JVM and JDK. I used small standalone Java programs to observe host-JVM behavior first, then used those observations as a reference while implementing the corresponding JPF behavior. This was particularly useful for <code>invokedynamic</code>, bootstrap methods, string concatenation, records, and newer JDK APIs.</div>
+    <div class="pair"><strong>Validating changes without breaking existing behavior.</strong> JPF is a model checker, so a change that makes one Java 17 example pass is not enough. Every fix had to be checked against existing behavior and regression tests. I repeatedly moved between a minimal reproducer, the implementation, and the broader test suite to make sure a local fix did not introduce regressions elsewhere.</div>
+    <div class="pair"><strong>Large combined changes.</strong> My networking work initially arrived as one large pull request. Review feedback showed that the change was easier to understand and validate when separated. I split it into focused changes covering build updates, formatting, cleanup, and peer fixes. Each piece was easier to review and merge independently.</div>
+    <ol class="loop" aria-label="Recurring engineering loop">
+      <li>Understand existing behavior</li>
+      <li>Find a minimal reproducer</li>
+      <li>Compare with the real JVM</li>
+      <li>Trace JPF's execution path</li>
+      <li>Identify the compatibility gap</li>
+      <li>Implement the smallest fix</li>
+      <li>Add a regression test</li>
+      <li>Run the broader test suite</li>
+      <li>Repeat</li>
+    </ol>
+    <p class="sec-sub">The biggest lesson was that <strong>supporting a new Java version in a mature JVM-based system is less about adding isolated features and more about understanding how those features interact with the existing execution model.</strong></p>
+  </section>
+
+  <section id="remaining" aria-labelledby="remaining-h">
+    <h2 class="sec" id="remaining-h">Remaining Work</h2>
+    <p class="sec-sub">The implementation is in place; the remaining work is focused on integration, release updates, and long-term maintenance.</p>
     <ul class="bullets">
-      <li>Land <a href="https://github.com/javapathfinder/jpf-core/pull/635">core#635</a> after reviewer feedback.</li>
-      <li>Cover more sealed-class and record edge cases found while testing.</li>
-      <li>Work through the remaining Java 17 gaps after the program.</li>
+      <li><strong>Merge Java 17 support into the main development line.</strong> Complete the remaining review and integration work, then transition the <code>java-17</code> branch into the project's main/master development branch once the maintainers are ready.</li>
+      <li><strong>Keep JPF aligned with new Java releases.</strong> Continue updating the project as newer Java/JDK releases introduce changes to class-file formats, JVM behavior, language features, APIs, and runtime internals.</li>
+      <li><strong>Refine and maintain the codebases.</strong> Continue cleaning up implementations. Improve consistency across JPF-Core and its related repositories. Address reviewer feedback. Maintain the new Java 17 support as the surrounding code evolves.</li>
+      <li><strong>Continue regression testing and compatibility validation.</strong> Keep expanding and maintaining tests around Java 17 behavior and verify that future changes do not regress the functionality already implemented.</li>
     </ul>
-    <h3 class="block-h">Acknowledgments</h3>
-    <p class="std">Thank you to <a href="https://github.com/cyrille-artho">Cyrille Artho</a> and <a href="https://github.com/Mahmoud-Khawaja">Mahmoud Khawaja</a> for the mentorship and the patient reviews, to <strong>The JPF Team</strong> for accepting the project, and to <strong>Google Summer of Code</strong> for the summer.</p>
+  </section>
+
+  <section id="acknowledgments" aria-labelledby="acknowledgments-h">
+    <h2 class="sec" id="acknowledgments-h">Acknowledgments</h2>
+    <p class="sec-sub">Who helped.</p>
+    <p class="std">A sincere thank you to <a href="https://github.com/cyrille-artho"><strong>Cyrille Artho</strong></a> and <a href="https://github.com/Mahmoud-Khawaja"><strong>Mahmoud Khawaja</strong></a> for their mentorship, thoughtful guidance, and patient code reviews throughout the project. Their feedback helped me understand JPF at a much deeper level and pushed me to approach problems more carefully.</p>
+    <p class="std">I'm also grateful to the <strong>JPF Team</strong> for welcoming me into the project and giving me the opportunity to contribute to such a technically interesting codebase.</p>
+    <p class="std">And finally, thank you to <strong>Google Summer of Code</strong> for making this experience possible. It was a great opportunity to learn, contribute to open source, and grow as an engineer.</p>
     <h3 class="block-h">Contact</h3>
     <p class="std"><a href="https://github.com/Darshan-dev57">Darshan-dev57</a><br><a href="mailto:darshan.dev57@gmail.com">darshan.dev57@gmail.com</a></p>
     <h3 class="block-h">Primary repositories</h3>
@@ -358,10 +572,6 @@ table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;col
 <footer>
   <p>Darshan R · Java Pathfinder · GSoC 2026</p>
 </footer>
-</div>
-<div class="verdict" id="verdict">
-  <span class="verdict-track" aria-hidden="true"><span class="verdict-fill" id="verdictFill"></span></span>
-  <span class="verdict-text" id="verdictText" role="status">0 of 19 PRs reviewed</span>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -400,44 +610,17 @@ table.work tr.grp td{background:var(--canvas);font-size:12px;font-weight:500;col
     var v=parseInt(el.textContent,10);
     if(!isNaN(v))count(el,v);
   });
-  var pill=document.getElementById('verdict'),      fill=document.getElementById('verdictFill'),
-      vtext=document.getElementById('verdictText'),
-      heroEl=document.querySelector('.hero'),
-      footEl=document.querySelector('footer'),
-      weights={core:12,nas:5,nhandler:2}, seen={}, lastN=-1,
-      heroOut=false, footIn=false,
+  var heroEl=document.querySelector('.hero'),
       topBtn=document.getElementById('toTop'),
       reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function verdictRender(){
-    var n=0;['core','nas','nhandler'].forEach(function(id){if(seen[id])n+=weights[id];});
-    if(n===lastN)return; lastN=n;
-    fill.style.transform='scaleX('+(n/19)+')';
-    vtext.innerHTML='<strong>'+n+'</strong> of 19 PRs reviewed';
-    verdictToggle();
-  }
-  function verdictToggle(){
-    pill.classList.toggle('show',heroOut&&!footIn&&lastN>0);
-  }
   if('IntersectionObserver' in window){
-    var secObs=new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.boundingClientRect.top<window.innerHeight*0.6)seen[e.target.id]=true;
-        else delete seen[e.target.id];
-        verdictRender();
-      });
-    },{threshold:0});
-    ['core','nas','nhandler'].forEach(function(id){var s=document.getElementById(id);if(s)secObs.observe(s);});
     var heroObs=new IntersectionObserver(function(es){
-      es.forEach(function(e){heroOut=!e.isIntersecting&&e.boundingClientRect.top<0;verdictToggle();if(topBtn)topBtn.classList.toggle('show',heroOut);});
+      es.forEach(function(e){var out=!e.isIntersecting&&e.boundingClientRect.top<0;if(topBtn)topBtn.classList.toggle('show',out);});
     });
     if(topBtn)topBtn.addEventListener('click',function(){
       window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'});
     });
     if(heroEl)heroObs.observe(heroEl);
-    var footObs=new IntersectionObserver(function(es){
-      es.forEach(function(e){footIn=e.isIntersecting;verdictToggle();});
-    });
-    if(footEl)footObs.observe(footEl);
   }
 })();
 </script>
