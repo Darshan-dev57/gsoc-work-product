@@ -242,8 +242,8 @@ table.work tr.grp td{white-space:nowrap}
     <h2 class="sub" style="--i:2">Bringing modern Java language features and JDK functionality to JPF.</h2>
     <dl class="stats" style="--i:3" aria-label="Results at a glance">
       <div><dt>Opened</dt><dd>19</dd></div>
-      <div><dt>Merged</dt><dd>18</dd></div>
-      <div><dt>Open</dt><dd><a href="https://github.com/javapathfinder/jpf-core/pull/635">1</a></dd></div>
+      <div><dt>Merged</dt><dd>19</dd></div>
+      <div><dt>Open</dt><dd>0</dd></div>
     </dl>
     <div class="details" style="--i:4">
       <div>
@@ -278,7 +278,7 @@ table.work tr.grp td{white-space:nowrap}
 
   <section id="goals" aria-labelledby="goals-h">
     <h2 class="sec" id="goals-h">Goals</h2>
-    <p class="sec-sub">I spent the program making the checker handle the Java people actually write, then fixing whatever that work exposed. Over the summer I opened <strong>19 pull requests</strong> across three repositories: <a href="https://github.com/javapathfinder/jpf-core">JPF-Core</a> (12), <a href="https://github.com/javapathfinder/jpf-nas">JPF-NAS</a> (5), and <a href="https://github.com/javapathfinder/jpf-nhandler">jpf-nhandler</a> (2). 18 are merged and 1 is open for review.</p>
+    <p class="sec-sub">I spent the program making the checker handle the Java people actually write, then fixing whatever that work exposed. Over the summer I opened <strong>19 pull requests</strong> across three repositories: <a href="https://github.com/javapathfinder/jpf-core">JPF-Core</a> (12), <a href="https://github.com/javapathfinder/jpf-nas">JPF-NAS</a> (5), and <a href="https://github.com/javapathfinder/jpf-nhandler">jpf-nhandler</a> (2). All 19 are merged.</p>
     <h3 class="block-h">Abstract</h3>
     <p class="sec-sub">Java Pathfinder finds bugs by running a program down every path it can take. But it was built for older Java. Modern code broke that promise. Sealed classes and records crashed the checker or silently gave wrong answers. The hidden setup calls the compiler generates did the same. My project brings the checker up to modern Java. I completed sealed-class and record support in the core engine. I fixed the text-building and switch machinery around them. I repaired the networking and delegation extensions that work touched. Every fix ships with a test that fails before and passes after, so future contributors build on verified ground.</p>
     <h3 class="block-h">Feature areas</h3>
@@ -411,7 +411,7 @@ table.work tr.grp td{white-space:nowrap}
 
   <section id="core" aria-labelledby="core-h">
     <h2 class="sec" id="core-h">JPF-Core contributions</h2>
-    <p class="sec-sub">12 pull requests, 11 merged and 1 open. Without these, everyday programs crash the checker before checking starts.</p>
+    <p class="sec-sub">12 pull requests, all merged. Without these, everyday programs crash the checker before checking starts.</p>
     <div class="bezel"><div class="bezel-core"><table class="work" aria-label="jpf-core pull requests: number, title, description, status">
       <thead><tr><th scope="col">PR #</th><th scope="col">Title and link</th><th scope="col">Description</th><th scope="col">Status</th></tr></thead>
       <tbody>
@@ -426,7 +426,7 @@ table.work tr.grp td{white-space:nowrap}
         <tr><td data-label="PR #" class="num">#640</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/640">SharedSecrets for ZipFile and JarFile</a></td><td data-label="Description">JPF can now start the JDK code that zip files need, so Clojure programs load instead of crashing (fixes #507).</td><td data-label="Status" class="st">Merged</td></tr>
         <tr><td data-label="PR #" class="num">#639</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/639">SharedSecrets security hook</a></td><td data-label="Description">Adds a JDK startup hook Java needs for security setup. Fixes 2 serialization test failures; suite now 1028 of 1028.</td><td data-label="Status" class="st">Merged</td></tr>
         <tr><td data-label="PR #" class="num">#638</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/638">JarFile model and peer</a></td><td data-label="Description">Programs reading jars get entries and manifests (fixes #477, #483).</td><td data-label="Status" class="st">Merged</td></tr>
-        <tr><td data-label="PR #" class="num">#635</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/635">Resource loading from the tested program</a></td><td data-label="Description">Shipped data files load with content instead of coming back null. Open for review.</td><td data-label="Status" class="st open">Open</td></tr>
+        <tr><td data-label="PR #" class="num">#635</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/635">Resource loading from the tested program</a></td><td data-label="Description">Shipped data files load with content instead of coming back null.</td><td data-label="Status" class="st">Merged</td></tr>
         <tr><td data-label="PR #" class="num">#634</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/634">Per-test classloader isolation</a></td><td data-label="Description">Optional mode stops tests leaking state into each other through shared loaders.</td><td data-label="Status" class="st">Merged</td></tr>
         <tr><td data-label="PR #" class="num">#633</td><td data-label="Title and link" class="ttl"><a href="https://github.com/javapathfinder/jpf-core/pull/633">Configurable end-state detection</a></td><td data-label="Description">Options control when a run counts as finished, for single and multiprocess runs.</td><td data-label="Status" class="st">Merged</td></tr>
       </tbody>
